@@ -25,25 +25,25 @@ import static net.sf.jasperreports.engine.JasperFillManager.fillReport;
 
 @Service
 @RequiredArgsConstructor
-public class ReportService {
+public class ReportProvider {
 
     private static final String ERROR_REPORT = "error.report";
-    private static final String PATTERN_NOME_ARQUIVO = "ddMMyyyy_HHmmss";
+    private static final String PATTERN_FILENAME = "ddMMyyyy_HHmmss";
 
     public ReportData getReportData(final String reportName, final Map<String, Object> parameters,
                                     final ReportType format, final List<Object> items) throws BadRequestException {
         try {
 
-            final LocalDateTime dataHora = now();
-            final String nomeArquivo =
-                    reportName.split("\\.")[0] + "_" + dataHora.format(ofPattern(PATTERN_NOME_ARQUIVO)) +
+            final LocalDateTime dateTime = now();
+            final String filename =
+                    reportName.split("\\.")[0] + "_" + dateTime.format(ofPattern(PATTERN_FILENAME)) +
                             "." + format.getExtension();
 
             final File file = getFile(reportName);
             final JasperReport jasperReport = (JasperReport) JRLoader.loadObject(file);
             final JasperPrint jasperPrint = fillReport(jasperReport, parameters, new JRBeanCollectionDataSource(items));
             final byte[] reportContent = exportReportToPdf(jasperPrint);
-            return new ReportData(reportContent, nomeArquivo, format);
+            return new ReportData(reportContent, filename, format);
 
         } catch (final JRException | BadRequestException e) {
             throw new BadRequestException(ERROR_REPORT);
