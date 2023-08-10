@@ -8,6 +8,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import static java.util.Locale.ENGLISH;
 import static java.util.Locale.getDefault;
 
 @Configuration
@@ -24,7 +25,7 @@ public class MessageSourceConfig {
     @Bean
     public LocaleResolver localeResolver() {
         final SessionLocaleResolver resolver = new SessionLocaleResolver();
-        resolver.setDefaultLocale(getDefault());
+        resolver.setDefaultLocale(ENGLISH);
         return resolver;
     }
 
