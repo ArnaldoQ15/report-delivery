@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ReportName {
 
-    ORDER_STATUS("order_status");
+    DELIVERY("delivery");
 
     private final String description;
 
